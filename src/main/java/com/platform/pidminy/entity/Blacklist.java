@@ -12,8 +12,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "blacklists", indexes = {
-        @Index(name = "idx_blacklists_entity_1", columnList = "entity_1_id"),
-        @Index(name = "idx_blacklists_entity_2", columnList = "entity_2_id"),
         @Index(name = "idx_blacklists_reason", columnList = "reason"),
         @Index(name = "idx_blacklists_created_by", columnList = "created_by"),
         @Index(name = "idx_blacklists_expiry", columnList = "expires_at")
@@ -28,12 +26,6 @@ public class Blacklist {
     @UuidGenerator
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID entity1Id;
-
-    @Column(nullable = false)
-    private UUID entity2Id;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BlacklistReason reason;
@@ -43,6 +35,9 @@ public class Blacklist {
     private boolean isPermanent;
 
     private LocalDateTime expiresAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User blockedUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")

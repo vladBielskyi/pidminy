@@ -2,6 +2,7 @@ package com.platform.pidminy.entity;
 
 import com.platform.pidminy.common.converter.JsonConverter;
 import com.platform.pidminy.entity.embeddable.LocationCoordinates;
+import com.platform.pidminy.entity.listener.BusinessLocationEntityListener;
 import com.platform.pidminy.entity.metadata.WorkingHours;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,13 +20,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "business_locations", indexes = {
         @Index(name = "idx_business_locations_business_id", columnList = "business_id"),
-        @Index(name = "idx_business_locations_geo", columnList = "geo_location"),
         @Index(name = "idx_business_locations_active", columnList = "is_active")
 })
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(BusinessLocationEntityListener.class)
 public class BusinessLocation {
 
     @Id
@@ -45,7 +46,7 @@ public class BusinessLocation {
     @Convert(converter = JsonConverter.class)
     private LocationCoordinates locationCoordinates;
 
-    @Column(name = "geo_location", columnDefinition = "geography(Point,4326)")
+    @Column(name = "geo_location", columnDefinition = "geometry(Point,4326)")
     private Point geoLocation;
 
     private String contactPerson;

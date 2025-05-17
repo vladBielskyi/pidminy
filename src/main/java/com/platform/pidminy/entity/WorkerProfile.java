@@ -23,8 +23,7 @@ import java.util.UUID;
         @Index(name = "idx_worker_profiles_worker_id", columnList = "worker_id"),
         @Index(name = "idx_worker_profiles_hourly_rate", columnList = "hourly_rate"),
         @Index(name = "idx_worker_profiles_rating", columnList = "rating"),
-        @Index(name = "idx_worker_profiles_active", columnList = "is_active"),
-        @Index(name = "idx_worker_profiles_geo", columnList = "geo_location")
+        @Index(name = "idx_worker_profiles_active", columnList = "is_active")
 })
 @Data
 @Builder
@@ -64,7 +63,7 @@ public class WorkerProfile {
     @Convert(converter = JsonConverter.class)
     private Set<UUID> preferredLocations;
 
-    @Column(name = "geo_location", columnDefinition = "geography(Point,4326)")
+    @Column(name = "geo_location", columnDefinition = "geometry(Point,4326)")
     private Point geoLocation;
 
     @Convert(converter = JsonConverter.class)
